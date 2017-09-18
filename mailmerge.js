@@ -1,7 +1,7 @@
 function sendEmails() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var dataSheet = ss.getSheets()[0];
-  var dataRange = dataSheet.getRange(2, 1, dataSheet.getMaxRows() - 1, 4);
+  var dataRange = dataSheet.getRange(2, 1, 1, 4);
 
   var templateSheet = ss.getSheets()[1];
   var emailTemplate = templateSheet.getRange("A1").getValue();
