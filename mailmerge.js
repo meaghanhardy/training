@@ -1,10 +1,16 @@
 function sendEmails() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var dataSheet = ss.getSheets()[0];
-  var dataRange = dataSheet.getRange(2, 1, 1, 4);
+  var countsSheet = ss.getSheets()[0];
+  var dataRange = countsSheet.getRange(2, 1, 8, 2);
 
-  var templateSheet = ss.getSheets()[1];
-  var emailTemplate = templateSheet.getRange("A1").getValue();
+  var ListsSheet = ss.getSheets()[1];
+  var EAClientUpdates = ListsSheet.getRange((2, 1, ListsSheet.getMaxRows() - 1, 1)).getValue();
+  var EAMigrations = ListsSheet.getRange((2, 3, ListsSheet.getMaxRows() - 1, 1)).getValue();
+  var DemosOffered = ListsSheet.getRange((3, 4, ListsSheet.getMaxRows() - 1, 1)).getValue();
+  var DemosScheduled = ListsSheet.getRange((3, 7, ListsSheet.getMaxRows() - 1, 1)).getValue();
+  var MigrationsScheduled = ListsSheet.getRange((3, 8, ListsSheet.getMaxRows() - 1, 1)).getValue();
+
+
 
   // Create one JavaScript object per row of data.
   objects = getRowsData(dataSheet, dataRange);
@@ -19,12 +25,11 @@ function sendEmails() {
     // Given a template string, replace markers (for instance ${"First Name"}) with
     // the corresponding value in a row object (for instance rowData.firstName).
     var emailText = fillInTemplateFromObject(emailTemplate, rowData);
-    var emailSubject = "Check In Email";
+    var emailSubject = "[DRAFT] Migrations and Conversions Queue";
 
     MailApp.sendEmail(rowData.emailAddress, emailSubject, emailText);
   } 
 }
-
 
 // Replaces markers in a template string with values define in a JavaScript data object.
 // Arguments:
@@ -48,6 +53,3 @@ function fillInTemplateFromObject(template, data) {
 
   return email;
 }
-
-
-
